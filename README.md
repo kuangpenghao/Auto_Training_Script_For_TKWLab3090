@@ -25,7 +25,7 @@
     * 若为运行状态，则视为模型正常训练
     * 若为空闲状态，检测是否为训练完成
     * 若空闲且未训练完成，则视为任务抢占下线，实施重新上线操作
-  * 对于重新上线操作，修改run_clm.sh（模型训练脚本）中的--config_name与--output_dir两项为当前下线任务对应的配置（如下图），向tmux重新提交训练任务：srun -N 1 -n 1 -X -u -p normal --gres=gpu:1 -c 2 --mem=1M -t 0-96:00:00 bash run_clm.sh（具体指令可能根据实际情况调整）
+  * 对于重新上线操作，新建临时sh脚本文件。该脚本文件修改run_clm.sh（模型训练脚本）中的--config_name与--output_dir两项为当前下线任务对应的配置（如下图），向tmux重新提交训练任务：srun -N 1 -n 1 -X -u -p normal --gres=gpu:1 -c 2 --mem=1M -t 0-96:00:00 bash {temp_filename_run_clm}.sh（具体指令可能根据实际情况调整）。修改后的脚本有30秒时间供训练任务读入，30秒后删除。
 ![](run_clm.png)
 
 ### 运行方式
